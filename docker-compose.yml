@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  cloud-gateway:
+    image: zelejs/cloud-gateway:lastest
+    container_name: cloud-gateway
+    volumes:
+      - "./gateway:/usr/src/gateway"
+    # privileged: true
+    ports:
+      - "10000:10000"
+    build:
+      context: .
+      dockerfile: Dockerfile
