@@ -1,0 +1,5 @@
+2021/06/03 09:26:26 [error] 9#9: *3 connect() failed (111: Connection refused), client: 172.23.0.1, server: , request: "GET /hello HTTP/1.1", host: "localhost:10000"
+2021/06/03 09:26:26 [error] 9#9: *3 lua entry thread aborted: runtime error: /usr/src/gateway/lua/test.lua:1: attempt to index a nil value
+stack traceback:
+coroutine 0:
+	/usr/src/gateway/lua/test.lua: in main chunk, client: 172.23.0.1, server: , request: "GET /hello HTTP/1.1", host: "localhost:10000"

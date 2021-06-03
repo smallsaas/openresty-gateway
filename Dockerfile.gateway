@@ -1,0 +1,17 @@
+# syntax=docker/dockerfile:experimental
+FROM openresty/openresty
+
+WORKDIR /usr/src
+ADD ./gateway ./
+
+WORKDIR /usr/src/gateway/lua-resty-etcd
+RUN apt-get update
+RUN apt-get install -y luarocks git vim curl
+# RUN luarocks install api7-lua-resty-http
+# RUN luarocks install lua-typeof
+RUN luarocks install lua-resty-etcd
+
+WORKDIR /usr/src/gateway
+CMD openresty -p `pwd` -c conf/nginx.conf -g 'daemon off;'
+
+EXPOSE 10000
