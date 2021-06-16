@@ -5,6 +5,7 @@ services:
     container_name: gateway
     volumes:
       - "./gateway:/usr/src/gateway"
+      - "./attachments:/attachments"
     privileged: true
     ports:
       - "10000:10000"
