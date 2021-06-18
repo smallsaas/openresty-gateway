@@ -69,8 +69,6 @@ elseif 'PUT' == request_method then
         end
     end
 
-    ngx.say(json.encode(request_body))
-
     -- 提交聚合后的信息
     resp =
         ngx.location.capture(
