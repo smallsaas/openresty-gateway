@@ -4,12 +4,25 @@ FROM openresty/openresty
 WORKDIR /usr/src
 ADD ./gateway ./
 
-WORKDIR /usr/src/gateway/lua-resty-etcd
-RUN apt-get update
-RUN apt-get install -y luarocks git vim curl
-RUN luarocks install lua-resty-etcd
+WORKDIR /usr/local
+RUN apt-get update -y
+RUN apt-get install -y build-essential libreadline-dev liblua5.3-dev lua5.3 unzip git vim curl wget
+
+# manual build base luarocks tool
+ADD ./packages ./
+RUN tar -zxvf luarocks-3.3.1.tar.gz
+# changed the folder into luarocks 
+WORKDIR /usr/local/luarocks-3.3.1
+RUN ./configure --with-lua-include=/usr/include
+RUN make
+RUN make install
 
 WORKDIR /usr/src/gateway
+# create lua module folder
+RUN mkdir lua_modules
+# install lua-resty-jwt dependency
+RUN luarocks install --tree lua_modules lua-resty-jwt 
+
 CMD openresty -p `pwd` -c conf/nginx.conf -g 'daemon off;'
 
 EXPOSE 10000

@@ -4,7 +4,9 @@ services:
     image: zelejs/gateway:lastest
     container_name: gateway
     volumes:
-      - "./gateway:/usr/src/gateway"
+      - "./gateway/conf:/usr/src/gateway/conf"
+      - "./gateway/lua:/usr/src/gateway/lua"
+      - "./gateway/logs:/usr/src/gateway/logs"
       - "./attachments:/attachments"
     privileged: true
     ports:
@@ -14,6 +16,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.gateway
+    environment: 
+      # JWT密钥
+      JWT_KEY: ZW1selpHOHVjSEp2WjNKbGMzTXVhWE53YjNKMGN3
 
   etcd:
     image: docker.io/bitnami/etcd:3
