@@ -1,0 +1,24 @@
+version: "3.7"
+services:
+  openresty:
+    image: bitnami/openresty:1.21.4-1-debian-11-r55
+    container_name: openresty
+    #  privileged: true
+    #  user: root
+    restart: always
+    environment:
+      TZ: Asia/Shanghaids
+    ports:
+#    - 443:443
+      - 8080:8080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+    volumes:
+      # - ./bitnami/conf/nginx.conf.bitnami:/opt/bitnami/openresty/nginx/conf/nginx.conf
+      #   - ./bitnami/conf.d:/opt/bitnami/openresty/nginx/conf/server_blocks
+      - ./bitnami/conf.d:/opt/bitnami/openresty/nginx/conf/bitnami
+      - ./gateway/lua:/opt/bitnami/openresty/nginx/lua
+      - ./gateway/logs:/opt/bitnami/openresty/nginx/logs
+      - ./upload:/usr/share/nginx/html/upload:rw
