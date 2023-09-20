@@ -1,51 +1,24 @@
 version: "3.8"
 services:
-  gateway:
-    image: zelejs/gateway:lastest
-    container_name: gateway
-    volumes:
-      - "./gateway/conf:/usr/src/gateway/conf"
-      - "./gateway/lua:/usr/src/gateway/lua"
-      - "./gateway/logs:/usr/src/gateway/logs"
-      - "./attachments:/attachments"
+  openresty:
+    image: openresty-gateway:lastest
+    container_name: openresty 
     privileged: true
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+      - ./lua:/usr/local/openresty/nginx/lua
+      - ./logs:/usr/local/openresty/nginx/logs
+      - ./upload:/usr/local/openresty/nginx/html/upload:rw
     ports:
-      - "10000:10000"
-    networks:
-      - etcd-net
+      - "10000:80"
     build:
       context: .
-      dockerfile: Dockerfile.gateway
     environment: 
-      # JWT密钥
+      TZ: Asia/Shanghaids
       JWT_KEY: ZW1selpHOHVjSEp2WjNKbGMzTXVhWE53YjNKMGN3
 
-  etcd:
-    image: docker.io/bitnami/etcd:3
-    container_name: etcd
-    environment:
-      - ALLOW_NONE_AUTHENTICATION=yes
-    volumes:
-      - etcd_data:/bitnami/etcd
-    networks:
-      - etcd-net
-    ports:
-      - 2379:2379
-
-  etcd-ui:
-    image: soyking/e3w
-    container_name: etcd-ui
-    volumes:
-      - ./etcd-ui/conf/config.default.ini:/app/conf/config.default.ini
-    networks:
-      - etcd-net
-    ports:
-      - "12380:8080"
-
-networks:
-  etcd-net:
-    name: etcd-net
-
-volumes:
-  etcd_data:
-    driver: local

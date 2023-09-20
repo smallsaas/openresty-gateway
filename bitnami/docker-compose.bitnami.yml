@@ -19,6 +19,6 @@ services:
       # - ./bitnami/conf/nginx.conf.bitnami:/opt/bitnami/openresty/nginx/conf/nginx.conf
       #   - ./bitnami/conf.d:/opt/bitnami/openresty/nginx/conf/server_blocks
       - ./bitnami/conf.d:/opt/bitnami/openresty/nginx/conf/bitnami
-      - ./gateway/lua:/opt/bitnami/openresty/nginx/lua
-      - ./gateway/logs:/opt/bitnami/openresty/nginx/logs
+      - ./lua:/opt/bitnami/openresty/nginx/lua
+      - /var/log/openresty:/opt/bitnami/openresty/nginx/logs
       - ./upload:/usr/share/nginx/html/upload:rw
