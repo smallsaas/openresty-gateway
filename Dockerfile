@@ -24,6 +24,9 @@ RUN mkdir lua_modules
 RUN luarocks install --tree lua_modules lua-resty-jwt 
 
 WORKDIR /usr/local/openresty/nginx
+# update user root
+COPY ./nginx.conf conf/nginx.conf 
 CMD openresty -p `pwd` -c conf/nginx.conf -g 'daemon off;'
 
 EXPOSE 80
+

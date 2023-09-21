@@ -12,8 +12,8 @@ services:
     volumes:
       - ./conf.d:/etc/nginx/conf.d
       - ./lua:/usr/local/openresty/nginx/lua
-      - ./logs:/usr/local/openresty/nginx/logs
-      - ./upload:/usr/local/openresty/nginx/html/upload:rw
+      - ../logs:/usr/local/openresty/nginx/logs
+      - ../upload_root:/usr/local/openresty/nginx/html/upload:rw
     ports:
       - "10000:80"
     build:

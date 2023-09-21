@@ -6,8 +6,9 @@ local upload = require 'resty.upload'
 local cjson = require 'cjson'
 local chunk_size = 4096
 local form, err = upload:new(chunk_size)
+ngx.say('chunk size to upload: ', chunk_size)
+
 if not form then
-    ngx.log(ngx.ERR, 'failed to new upload: ', err)
     ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
 end
 form:set_timeout(1000)
@@ -29,6 +30,8 @@ string.trim = function(s)
 end
 -- 文件保存的根路径
 local saveRootPath = ngx.var.store_dir
+-- ngx.say('save root path to upload: ', saveRootPath)
+
 -- 保存的文件对象
 local fileToSave
 --文件是否成功保存
@@ -54,9 +57,9 @@ while true do
                     local kvfile = string.split(seg, '=')
                     local filename = string.sub(kvfile[2], 2, -2)
                     if filename then
-                        fileToSave = io.open(saveRootPath .. filename, 'w+')
+                        fileToSave,err = io.open(saveRootPath .. filename, 'w+')
                         if not fileToSave then
-                            ngx.say('failed to open file ', filename)
+                            ngx.say('failed to open file: ', err)
                             return
                         end
                         break

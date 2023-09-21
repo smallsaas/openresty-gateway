@@ -21,7 +21,7 @@ local token = ngx.var.http_Authorization
 if token == nil then
     ngx.status = ngx.HTTP_UNAUTHORIZED
     ngx.header.content_type = 'application/json; charset=utf-8'
-    ngx.say('{\"code\": 200, \"message\": \"Forbidden\"}')
+    ngx.say('{\"code\": 403, \"message\": \"Forbidden\"}')
     ngx.exit(ngx.HTTP_UNAUTHORIZED)
 end
 
@@ -42,7 +42,7 @@ ngx.log(ngx.STDERR, '校验结果：' .. json.encode(jwt_obj))
 if not jwt_obj['valid'] then
     ngx.status = ngx.HTTP_UNAUTHORIZED
     ngx.header.content_type = 'application/json; charset=utf-8'
-    ngx.say('{\"code\": 200, \"message\": \"INVALID_JWT\"}')
+    ngx.say('{\"code\": 403, \"message\": \"INVALID_JWT\"}')
     ngx.exit(ngx.HTTP_UNAUTHORIZED)
 end
 
